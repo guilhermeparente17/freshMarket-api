@@ -5,7 +5,7 @@ import fastify from "fastify";
 
 import prismaPlugin from "./plugins/prisma.js";
 import authRoutes from "./routes/auth.js";
-// import userRoutes from "./routes/users.js";
+import userRoutes from "./routes/users.js";
 
 export function buildApp() {
   const app = fastify({
@@ -20,7 +20,7 @@ export function buildApp() {
 
   app.register(prismaPlugin);
   app.register(authRoutes);
-  //   app.register(userRoutes);
+  app.register(userRoutes);
 
   return app;
 }
