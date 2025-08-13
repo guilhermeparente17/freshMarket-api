@@ -1,9 +1,14 @@
+import { hashPassword, comparePassword } from "../utils/hash.js";
+import bcrypt from "bcryptjs";
+
 export default async function (fastify) {
   fastify.post("/register", async (req, res) => {
     const { name, email, password } = req.body;
 
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     const user = await fastify.prisma.user.create({
-      data: { name, email, password },
+      data: { name, email, password: hashedPassword },
     });
 
     return { message: "Usuário criado com sucesso!", user };
@@ -16,7 +21,7 @@ export default async function (fastify) {
       where: { email },
     });
 
-    if (!user || user.password !== password) {
+    if (!user || !(await comparePassword(password, user.password))) {
       return res.status(401).send({ message: "Credenciais inválidas" });
     }
 
@@ -27,8 +32,10 @@ export default async function (fastify) {
   fastify.post("/register-admin", async (req, res) => {
     const { name, email, password } = req.body;
 
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     const admin = await fastify.prisma.admin.create({
-      data: { name, email, password },
+      data: { name, email, password: hashedPassword },
     });
 
     return { message: "Admin criado com sucesso!", admin };
@@ -41,7 +48,7 @@ export default async function (fastify) {
       where: { email },
     });
 
-    if (!admin || admin.password !== password) {
+    if (!admin || !(await comparePassword(password, admin.password))) {
       return res.status(401).send({ message: "Credenciais inválidas" });
     }
 
