@@ -26,7 +26,7 @@ export default async function (fastify) {
     }
 
     const token = fastify.jwt.sign({ userId: user.id });
-    return { message: "Login bem-sucedido", user, token };
+    return { message: "Login bem-sucedido", user, token, type: "user" };
   });
 
   fastify.post("/register-admin", async (req, res) => {
@@ -53,6 +53,15 @@ export default async function (fastify) {
     }
 
     const token = fastify.jwt.sign({ adminId: admin.id });
-    return { message: "Login bem-sucedido", token };
+    return {
+      message: "Login bem-sucedido",
+      token,
+      user: {
+        id: admin.id,
+        name: admin.name,
+        email: admin.email,
+        type: "admin",
+      },
+    };
   });
 }
