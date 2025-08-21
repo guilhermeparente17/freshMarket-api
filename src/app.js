@@ -17,7 +17,7 @@ export function buildApp() {
     origin: "http://localhost:5173", // Permite todas as origens, ajuste conforme necessário
     credentials: true, // Permite cookies e cabeçalhos de autenticação
     methods: ["OPTIONS", "GET", "POST", "PUT", "DELETE", "PATCH"],
-    allowedHeaders: ["Content-Type", "Accept"],
+    allowedHeaders: ["Content-Type", "Accept", "Authorization"],
     credentials: true,
     preflightContinue: false,
     optionsSuccessStatus: 204,

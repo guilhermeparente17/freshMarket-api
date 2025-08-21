@@ -2,7 +2,7 @@ import { authMiddleware } from "../middlewares/authMiddleware.js";
 
 export default async function (fastify) {
   fastify.get(
-    "/admin/category",
+    "/admin/categories",
     { preHandler: [authMiddleware] },
     async (req, res) => {
       return await fastify.prisma.category.findMany();
@@ -10,7 +10,7 @@ export default async function (fastify) {
   );
 
   fastify.post(
-    "/admin/category",
+    "/admin/categories",
     { preHandler: [authMiddleware] },
     async (req, res) => {
       const { name, description } = req.body;
