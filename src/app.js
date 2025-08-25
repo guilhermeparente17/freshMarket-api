@@ -6,7 +6,8 @@ import fastify from "fastify";
 import prismaPlugin from "./plugins/prisma.js";
 import authRoutes from "./routes/auth.js";
 import userRoutes from "./routes/users.js";
-import adminRoutes from "./routes/admin.js";
+import categorieRoutes from "./routes/categorie.js";
+import productRoutes from "./routes/product.js";
 
 export function buildApp() {
   const app = fastify({
@@ -17,7 +18,7 @@ export function buildApp() {
     origin: "http://localhost:5173", // Permite todas as origens, ajuste conforme necessário
     credentials: true, // Permite cookies e cabeçalhos de autenticação
     methods: ["OPTIONS", "GET", "POST", "PUT", "DELETE", "PATCH"],
-    allowedHeaders: ["Content-Type", "Accept"],
+    allowedHeaders: ["Content-Type", "Accept", "Authorization"],
     credentials: true,
     preflightContinue: false,
     optionsSuccessStatus: 204,
@@ -30,7 +31,8 @@ export function buildApp() {
   app.register(prismaPlugin);
   app.register(authRoutes);
   app.register(userRoutes);
-  app.register(adminRoutes);
+  app.register(categorieRoutes);
+  app.register(productRoutes);
 
   return app;
 }
