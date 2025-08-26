@@ -5,7 +5,11 @@ export default async function (fastify) {
     "/admin/categories",
     { preHandler: [authMiddleware] },
     async (req, res) => {
-      return await fastify.prisma.category.findMany();
+      return await fastify.prisma.category.findMany({
+        include: {
+          product: true,
+        },
+      });
     }
   );
 
